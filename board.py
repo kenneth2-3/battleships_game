@@ -22,5 +22,40 @@ class Board:
                 if reveal_ships:
                     print(self.grid[row][col], end=" ")
                 else:
-                    print('X' if self.grid[row][col] == 'S' else self.grid[row][col], end=" ")
+                    print('X' if self.grid[row][col] == 'S'else self.grid[row][col], end=" ")
             print()
+
+    def place_ship(self, size):
+        placed = False
+        while not placed:
+            row = random.randint(0, self.size - 1)
+            col = random.randint(0, self.size - 1)
+            direction = random.choice(["horizontal", "vertical"])
+
+            if direction == "horizontal" and col + size <= self.size:
+                if all(self.grid[row][col + i] == '.' for i in range(size)):
+                    for i in range(size):
+                        self.grid[row][col + i] = 'S'
+                    placed = True
+            elif direction == "vertical" and row + size <= self.size:
+                if all(self.grid[row + i][col] == '.' for i in range(size)):
+                    for i in range(size):
+                        self.grid[row + i][col] = 'S'
+                    placed = True
+
+    def guess(self, coord):
+        row, col = coord
+        if row < 0 or col < 0 or row >= self.size or col >= self.size:
+            return "off"  # Out of bounds
+        elif self.grid[row][col] == 'S':
+            self.grid[row][col] = 'X'  # Hit
+            return "hit"
+        elif self.grid[row][col] == '.':
+            self.grid[row][col] = 'O'  # Miss
+            self.missed_guesses.append(coord)  # Track missed guesses
+            return "miss"
+        else:
+            return "repeat"  # Already guessed
+
+    def all_sunk(self):
+        return all(cell != 'S' for row in self.grid for cell in row)
