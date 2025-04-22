@@ -55,3 +55,7 @@ def start_game():
             print("Miss!")
 
         turn += 1
+
+    print("\nYou sank all the ships!")
+    print(f"Game completed in {turn - 1} turns.")
+    board.print_board(reveal_ships=True)
