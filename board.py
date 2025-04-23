@@ -6,29 +6,28 @@ class Board:
         self.size = size
         self.grid = [['.' for _ in range(size)] for _ in range(size)]
         self.ships = []
-        self.missed_guesses = []  # To Track missed guesses
+        self.missed_guesses = []  # To track missed guesses
 
-
-def print_board(self, reveal_ships=False):
-    # Print column labels
-    print("  ", end="")
-    for col in range(self.size):
-        print(chr(65 + col), end=" ")  # A, B, C, D...
-    print()
-
-    # Print rows with row numbers
-    for row in range(self.size):
-        print(f"{row + 1:2} ", end="")
+    def print_board(self, reveal_ships=False):
+        # Print column labels
+        print("  ", end="")
         for col in range(self.size):
-            if reveal_ships:
-                print(self.grid[row][col], end=" ")
-            else:
-                cell_value = self.grid[row][col]
-                if cell_value == 'S':
-                    print('X', end=" ")
-                else:
-                    print(cell_value, end=" ")
+            print(chr(65 + col), end=" ")  # A, B, C, D...
         print()
+
+        # Print rows with row numbers
+        for row in range(self.size):
+            print(f"{row + 1:2} ", end="")
+            for col in range(self.size):
+                if reveal_ships:
+                    print(self.grid[row][col], end=" ")
+                else:
+                    cell_value = self.grid[row][col]
+                    if cell_value == 'S':
+                        print('X', end=" ")
+                    else:
+                        print(cell_value, end=" ")
+            print()
 
     def place_ship(self, size):
         placed = False
