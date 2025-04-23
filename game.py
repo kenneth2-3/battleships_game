@@ -34,7 +34,12 @@ def start_game():
     while not board.all_sunk():
         print("\nCurrent Board:")
         board.print_board()
-        print(f"Missed guesses: {board.missed_guesses}")  # Show missed guesses
+
+        # Shows how many ship parts are still on the board
+        remaining = sum(row.count('S') for row in board.grid)
+        print(f"Ship parts remaining: {remaining}")
+
+        print(f"Missed guesses: {board.missed_guesses}")
         guess = input(f"Turn {turn} - Enter your guess (e.g., A3): ").strip()
         coord = parse_input(guess, size)
 
@@ -56,6 +61,6 @@ def start_game():
 
         turn += 1
 
-    print("\nYou sank all the ships!")
+    print("\n You sank all the ships!")
     print(f"Game completed in {turn - 1} turns.")
     board.print_board(reveal_ships=True)
