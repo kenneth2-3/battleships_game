@@ -49,13 +49,13 @@ def start_game():
 
         result = board.guess(coord)
         if result == "off":
-            print(Fore.RED + "Your guess is off the grid. Try again.")
+            print(Fore.BLUE + "Your guess is off the grid. Try again.")
         elif result == "repeat":
             print(Fore.YELLOW + "You already guessed that. Try again.")
         elif result == "hit":
             print(Fore.GREEN + "Hit!")
         elif result == "miss":
-            print(Fore.BLUE + "Miss!")
+            print(Fore.RED + "Miss!")
 
         turn += 1
 
