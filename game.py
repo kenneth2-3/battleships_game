@@ -1,5 +1,8 @@
 import string
 from board import Board
+from colorama import Fore, init
+
+init(autoreset=True)  # Automatically reset color after each print
 
 
 def parse_input(user_input, size):
@@ -14,16 +17,16 @@ def parse_input(user_input, size):
 
 
 def start_game():
-    print("Welcome to Battleships!")
+    print(Fore.CYAN + "Welcome to Battleships!\n")
 
     while True:
         try:
             size = int(input("Enter grid size (5–10): "))
             if 5 <= size <= 10:
                 break
-            print("Please enter a number between 5 and 10.")
+            print(Fore.YELLOW + "Please enter a number between 5 and 10.")
         except ValueError:
-            print("Invalid number. Try again.")
+            print(Fore.RED + "Invalid number. Try again.")
 
     board = Board(size)
     ship_sizes = [3, 2, 2]  # Example: 3 ships of sizes 3, 2, and 2
@@ -32,35 +35,31 @@ def start_game():
 
     turn = 1
     while not board.all_sunk():
-        print("\nCurrent Board:")
+        print(Fore.MAGENTA + "\n Current Board:")
         board.print_board()
-
-        # Shows how many ship parts are still on the board
-        remaining = sum(row.count('S') for row in board.grid)
-        print(f"Ship parts remaining: {remaining}")
-
-        print(f"Missed guesses: {board.missed_guesses}")
-        guess = input(f"Turn {turn} - Enter your guess (e.g., A3): ").strip()
+        print(Fore.YELLOW + f"Ship parts remaining: {board.remaining_ships()}")
+        print(Fore.BLUE + f"Missed guesses: {board.missed_guesses}")
+        prompt = Fore.CYAN + f"🔍 Turn {turn} - Enter your guess (e.g., A3): "
+        guess = input(prompt).strip()
         coord = parse_input(guess, size)
 
         if coord is None:
-            print("Invalid input. Format should be like A3.")
+            print(Fore.YELLOW + "Invalid input. Format should be like A3.")
             continue
 
         result = board.guess(coord)
-        print(f"Result: {result}")
-
         if result == "off":
-            print("Your guess is off the grid. Try again.")
+            print(Fore.RED + "Your guess is off the grid. Try again.")
         elif result == "repeat":
-            print("You already guessed that. Try again.")
+            print(Fore.YELLOW + "You already guessed that. Try again.")
         elif result == "hit":
-            print("Hit!")
+            print(Fore.GREEN + "Hit!")
         elif result == "miss":
-            print("Miss!")
+            print(Fore.BLUE + "Miss!")
 
         turn += 1
 
-    print("\n You sank all the ships!")
-    print(f"Game completed in {turn - 1} turns.")
+    print(Fore.GREEN + "\n You sank all the ships!")
+    print(Fore.CYAN + f"Game completed in {turn - 1} turns.\n")
+    print(Fore.MAGENTA + "Final Board (ships revealed):")
     board.print_board(reveal_ships=True)
