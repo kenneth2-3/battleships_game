@@ -63,3 +63,6 @@ class Board:
 
     def all_sunk(self):
         return all(cell != 'S' for row in self.grid for cell in row)
+
+    def remaining_ships(self):
+        return sum(cell == 'S' for row in self.grid for cell in row)
