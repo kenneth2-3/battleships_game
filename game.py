@@ -2,10 +2,20 @@ import string
 from board import Board
 from colorama import Fore, init
 
-init(autoreset=True)  # Automatically reset color after each print
+init(autoreset=True)  # This automatically resets the color after each print
 
 
 def parse_input(user_input, size):
+    """
+    Parses the user's input (e.g., 'A3') into grid coordinates.
+
+    Args:
+        user_input (str): The guess entered by the player.
+        size (int): The size of the game grid.
+
+    Returns:
+        tuple: (row, col) coordinates if valid, or None if input is invalid.
+    """
     try:
         col = string.ascii_uppercase.index(user_input[0].upper())
         row = int(user_input[1:]) - 1
@@ -17,6 +27,15 @@ def parse_input(user_input, size):
 
 
 def start_game():
+    """
+    Starts and controls the main flow of the Battleships game.
+
+    - Sets up the game board.
+    - Places ships randomly.
+    - Accepts user guesses.
+    - Displays hits, misses, and the board after each guess.
+    - Ends the game when all ships are sunk.
+    """
     print(Fore.CYAN + "Welcome to Battleships!\n")
 
     while True:
@@ -39,7 +58,7 @@ def start_game():
         board.print_board()
         print(Fore.YELLOW + f"Ship parts remaining: {board.remaining_ships()}")
         print(Fore.BLUE + f"Missed guesses: {board.missed_guesses}")
-        prompt = Fore.CYAN + f"🔍 Turn {turn} - Enter your guess (e.g., A3): "
+        prompt = Fore.CYAN + f"Turn {turn} - Enter your guess (e.g., A3): "
         guess = input(prompt).strip()
         coord = parse_input(guess, size)
 
